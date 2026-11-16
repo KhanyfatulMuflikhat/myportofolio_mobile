@@ -31,11 +31,21 @@ class ItemCard extends StatelessWidget {
   }
 
   /// Menampilkan SnackBar sesuai nama tombol yang ditekan.
+  ///
+  /// Warnanya mengikuti warna kartu agar pengguna langsung tahu
+  /// tombol mana yang baru ditekan.
   void _showSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!")),
+        SnackBar(
+          backgroundColor: item.color,
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            "Kamu telah menekan tombol ${item.name}!",
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
       );
   }
 

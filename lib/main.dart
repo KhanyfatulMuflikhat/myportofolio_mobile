@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           seedColor: Colors.indigo,
           secondary: Colors.amber[700],
         ),
-      useMaterial3: true,
+        useMaterial3: true,
       ),
       home: MyHomePage(),
     );

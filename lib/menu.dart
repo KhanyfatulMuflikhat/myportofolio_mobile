@@ -51,13 +51,25 @@ class MyHomePage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: InfoCard(title: 'NPM', content: npm, icon: Icons.badge),
+                    child: InfoCard(
+                      title: 'NPM',
+                      content: npm,
+                      icon: Icons.badge,
+                    ),
                   ),
                   Expanded(
-                    child: InfoCard(title: 'Name', content: nama, icon: Icons.person),
+                    child: InfoCard(
+                      title: 'Name',
+                      content: nama,
+                      icon: Icons.person,
+                    ),
                   ),
                   Expanded(
-                    child: InfoCard(title: 'Class', content: kelas, icon: Icons.school),
+                    child: InfoCard(
+                      title: 'Class',
+                      content: kelas,
+                      icon: Icons.school,
+                    ),
                   ),
                 ],
               ),

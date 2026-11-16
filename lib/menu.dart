@@ -15,19 +15,41 @@ class MyHomePage extends StatelessWidget {
   final String kelas = "PBP A";
 
   final List<ItemHomepage> items = [
-    ItemHomepage("Lihat Experience", Icons.work, Colors.indigo),
-    ItemHomepage("Tambah Experience", Icons.add_circle, Colors.teal),
+    ItemHomepage(
+      "Lihat Experience",
+      Icons.work,
+      Colors.indigo,
+      description: "Lihat daftar pengalaman",
+    ),
+    ItemHomepage(
+      "Tambah Experience",
+      Icons.add_circle,
+      Colors.teal,
+      description: "Tambah pengalaman baru",
+    ),
     ItemHomepage(
       "Lihat Achievement",
       Icons.emoji_events,
       Colors.orange.shade800,
+      description: "Lihat daftar pencapaian",
     ),
-    ItemHomepage("Tambah Achievement", Icons.military_tech, Colors.purple),
-    ItemHomepage("Lihat Projects", Icons.folder, Colors.blue.shade700),
+    ItemHomepage(
+      "Tambah Achievement",
+      Icons.military_tech,
+      Colors.purple,
+      description: "Tambah pencapaian baru",
+    ),
+    ItemHomepage(
+      "Lihat Projects",
+      Icons.folder,
+      Colors.blue.shade700,
+      description: "Lihat daftar proyek",
+    ),
     ItemHomepage(
       "Logout",
       Icons.logout,
       Colors.red.shade600,
+      description: "Keluar dari akun",
       confirmMessage: "Yakin ingin keluar dari akun?",
     ),
   ];

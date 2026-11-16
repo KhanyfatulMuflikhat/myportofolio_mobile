@@ -68,6 +68,8 @@ class ItemCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Tooltip(
         message: item.description ?? item.name,
+        preferBelow: false,
+        waitDuration: const Duration(milliseconds: 300),
         child: Semantics(
           button: true,
           label: item.name,

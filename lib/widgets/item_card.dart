@@ -61,23 +61,30 @@ class ItemCard extends StatelessWidget {
     return Material(
       color: item.color,
       borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () => _handleTap(context),
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(item.icon, color: Colors.white, size: 30.0),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
+      child: Tooltip(
+        message: item.description ?? item.name,
+        child: Semantics(
+          button: true,
+          label: item.name,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () => _handleTap(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(item.icon, color: Colors.white, size: 30.0),
+                    const Padding(padding: EdgeInsets.all(3)),
+                    Text(
+                      item.name,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

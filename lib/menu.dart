@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/models/item_homepage.dart';
 import 'package:myportofolio_mobile/widgets/info_card.dart';
 import 'package:myportofolio_mobile/widgets/item_card.dart';
+import 'package:myportofolio_mobile/widgets/welcome_header.dart';
 
 /// Halaman menu utama: identitas pemilik portofolio dan grid tombol aksi.
 ///
@@ -74,13 +75,7 @@ class MyHomePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16.0),
-              const Padding(
-                padding: EdgeInsets.only(top: 16.0),
-                child: Text(
-                  'Selamat datang di MyPortfolio Mobile!',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
-                ),
-              ),
+              WelcomeHeader(name: nama),
               LayoutBuilder(
                 builder: (context, constraints) {
                   // 6 kolom di layar lebar (Chrome/tablet), 3 kolom di HP.

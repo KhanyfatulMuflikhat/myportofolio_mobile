@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/models/item_homepage.dart';
 
 /// Kartu tombol aksi berwarna dengan efek sentuh dan SnackBar.
-/// Warna dan ikon berasal dari [ItemHomepage]. Jika item punya `confirmMessage`, dialog konfirmasi tampil lebih dulu dan SnackBar hanya muncul bila pengguna memilih "Ya".
+///
+/// Warna dan ikon berasal dari [ItemHomepage]. Jika item punya
+/// `confirmMessage`, dialog konfirmasi tampil lebih dulu dan SnackBar
+/// hanya muncul bila pengguna memilih "Ya".
+///
+/// Tooltip memakai [ItemHomepage.description]; Semantics menandainya sebagai tombol.
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
 
@@ -72,17 +77,27 @@ class ItemCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(8),
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(item.icon, color: Colors.white, size: 30.0),
-                    const Padding(padding: EdgeInsets.all(3)),
-                    Text(
-                      item.name,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
+                // FittedBox mengecilkan isi bila kartu terlalu sempit,
+                // sehingga tidak terjadi overflow.
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(item.icon, color: Colors.white, size: 30.0),
+                      const Padding(padding: EdgeInsets.all(3)),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 80),
+                        child: Text(
+                          item.name,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

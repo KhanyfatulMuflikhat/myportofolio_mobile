@@ -111,8 +111,8 @@ class MyHomePage extends StatelessWidget {
               WelcomeHeader(name: nama),
               LayoutBuilder(
                 builder: (context, constraints) {
-                  // 6 kolom di layar lebar (Chrome/tablet), 3 kolom di HP.
-                  final columns = constraints.maxWidth >= 900 ? 6 : 3;
+                  // 7 kolom di layar lebar (Chrome/tablet), 3 kolom di HP.
+                  final columns = constraints.maxWidth >= 900 ? 7 : 3;
                   return GridView.count(
                     // Scroll diurus SingleChildScrollView, bukan GridView.
                     primary: false,

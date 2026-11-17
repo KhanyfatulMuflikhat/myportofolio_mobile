@@ -53,7 +53,9 @@ class LeftDrawer extends StatelessWidget {
               final navigator = Navigator.of(context);
               navigator.pop();
               navigator.push(
-                MaterialPageRoute(builder: (context) => const ProjectFormPage()),
+                MaterialPageRoute(
+                  builder: (context) => const ProjectFormPage(),
+                ),
               );
             },
           ),

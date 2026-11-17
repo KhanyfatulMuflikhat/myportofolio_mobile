@@ -3,6 +3,7 @@ import 'package:myportofolio_mobile/models/item_homepage.dart';
 import 'package:myportofolio_mobile/widgets/info_card.dart';
 import 'package:myportofolio_mobile/widgets/item_card.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/welcome_header.dart';
 
 /// Halaman menu utama: identitas pemilik portofolio dan grid tombol aksi.
@@ -45,6 +46,13 @@ class MyHomePage extends StatelessWidget {
       Icons.folder,
       Colors.blue.shade700,
       description: "Lihat daftar proyek",
+    ),
+    ItemHomepage(
+      "Tambah Proyek",
+      Icons.create_new_folder,
+      Colors.blueGrey.shade700,
+      description: "Isi formulir proyek baru",
+      destination: (context) => const ProjectFormPage(),
     ),
     ItemHomepage(
       "Logout",

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
+import 'package:myportofolio_mobile/screens/project_form.dart';
 
 /// Drawer navigasi aplikasi: header dan tautan ke halaman utama
 /// serta halaman tambah proyek.
@@ -48,7 +49,12 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.add_circle_outline),
             title: const Text('Add Project'),
             onTap: () {
-              // TODO diisi di Step 5
+              // Tutup drawer dulu, lalu buka form di atas halaman saat ini.
+              final navigator = Navigator.of(context);
+              navigator.pop();
+              navigator.push(
+                MaterialPageRoute(builder: (context) => const ProjectFormPage()),
+              );
             },
           ),
         ],

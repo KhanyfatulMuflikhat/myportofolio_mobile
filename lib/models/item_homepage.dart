@@ -18,11 +18,16 @@ class ItemHomepage {
   /// Jika tidak null, kartu menampilkan dialog konfirmasi dengan teks ini sebelum aksi dijalankan (dipakai untuk aksi sensitif seperti Logout).
   final String? confirmMessage;
 
+  /// Pembuat halaman tujuan. Jika tidak null, halaman dibuka dengan
+  /// Navigator.push setelah tombol ditekan; null berarti tetap di menu.
+  final WidgetBuilder? destination;
+
   const ItemHomepage(
     this.name,
     this.icon,
     this.color, {
     this.description,
     this.confirmMessage,
+    this.destination,
   });
 }

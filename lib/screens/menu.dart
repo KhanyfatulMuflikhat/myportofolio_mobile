@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/models/item_homepage.dart';
 import 'package:myportofolio_mobile/widgets/info_card.dart';
 import 'package:myportofolio_mobile/widgets/item_card.dart';
+import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/welcome_header.dart';
 
 /// Halaman menu utama: identitas pemilik portofolio dan grid tombol aksi.
@@ -46,6 +48,13 @@ class MyHomePage extends StatelessWidget {
       description: "Lihat daftar proyek",
     ),
     ItemHomepage(
+      "Tambah Proyek",
+      Icons.create_new_folder,
+      Colors.blueGrey.shade700,
+      description: "Isi formulir proyek baru",
+      destination: (context) => const ProjectFormPage(),
+    ),
+    ItemHomepage(
       "Logout",
       Icons.logout,
       Colors.red.shade600,
@@ -63,7 +72,9 @@ class MyHomePage extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      drawer: const LeftDrawer(),
       // SingleChildScrollView mencegah overflow di layar kecil / jendela sempit.
       body: SingleChildScrollView(
         child: Padding(
@@ -100,8 +111,8 @@ class MyHomePage extends StatelessWidget {
               WelcomeHeader(name: nama),
               LayoutBuilder(
                 builder: (context, constraints) {
-                  // 6 kolom di layar lebar (Chrome/tablet), 3 kolom di HP.
-                  final columns = constraints.maxWidth >= 900 ? 6 : 3;
+                  // 7 kolom di layar lebar (Chrome/tablet), 3 kolom di HP.
+                  final columns = constraints.maxWidth >= 900 ? 7 : 3;
                   return GridView.count(
                     // Scroll diurus SingleChildScrollView, bukan GridView.
                     primary: false,

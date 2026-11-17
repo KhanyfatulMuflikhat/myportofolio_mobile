@@ -8,6 +8,7 @@ import 'package:myportofolio_mobile/models/item_homepage.dart';
 /// hanya muncul bila pengguna memilih "Ya".
 ///
 /// Tooltip memakai [ItemHomepage.description]; Semantics menandainya sebagai tombol.
+/// Jika item punya destination, halaman tujuan dibuka setelah SnackBar tampil.
 class ItemCard extends StatelessWidget {
   final ItemHomepage item;
 
@@ -59,6 +60,10 @@ class ItemCard extends StatelessWidget {
     if (message != null && !await _confirm(context, message)) return;
     if (!context.mounted) return;
     _showSnackBar(context);
+    final destination = item.destination;
+    if (destination != null) {
+      Navigator.push(context, MaterialPageRoute(builder: destination));
+    }
   }
 
   @override

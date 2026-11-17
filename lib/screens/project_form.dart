@@ -1,0 +1,189 @@
+import 'package:flutter/material.dart';
+import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+
+/// Halaman formulir untuk mengisi data proyek baru.
+///
+/// Stateful karena menyimpan isian pengguna di state form.
+class ProjectFormPage extends StatefulWidget {
+  const ProjectFormPage({super.key});
+
+  @override
+  State<ProjectFormPage> createState() => _ProjectFormPageState();
+}
+
+class _ProjectFormPageState extends State<ProjectFormPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  String _projectName = "";
+  String _description = "";
+  String _category = "Web Development";
+  String _technologies = "";
+  String _projectLink = "";
+
+  final List<String> _categories = [
+    'Web Development',
+    'Mobile Development',
+    'Machine Learning',
+    'Data Science',
+    'Other',
+  ];
+
+  /// Dekorasi seragam untuk semua field.
+  InputDecoration _decoration(String label, {String? hint}) {
+    return InputDecoration(
+      labelText: label,
+      hintText: hint ?? label,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text('Add Project Form')),
+        backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
+      ),
+      drawer: const LeftDrawer(),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // === Project Name ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: _decoration("Nama Proyek"),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _projectName = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Nama proyek tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+
+              // === Description ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  maxLines: 5,
+                  decoration: _decoration("Deskripsi Proyek"),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _description = value!;
+                    });
+                  },
+                  validator: (String? value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Deskripsi proyek tidak boleh kosong!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+
+              // === Category ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButtonFormField<String>(
+                  decoration: _decoration("Kategori Proyek"),
+                  initialValue: _category,
+                  items: _categories
+                      .map((category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(category),
+                          ))
+                      .toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _category = newValue!;
+                    });
+                  },
+                ),
+              ),
+
+              // === Technologies ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: _decoration(
+                    "Teknologi yang Digunakan",
+                    hint: "Contoh: Flutter, Django, Figma",
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _technologies = value!;
+                    });
+                  },
+                ),
+              ),
+
+              // === Project Link ===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: _decoration(
+                    "Tautan Proyek",
+                    hint: "URL Proyek (opsional)",
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      _projectLink = value!;
+                    });
+                  },
+                ),
+              ),
+
+              // === Tombol Simpan ===
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(Colors.indigo),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Proyek berhasil ditambahkan!'),
+                              actions: [
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    _formKey.currentState!.reset();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                    child: const Text(
+                      "Save",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/models/item_homepage.dart';
+import 'package:myportofolio_mobile/screens/experience_form.dart';
+import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/info_card.dart';
 import 'package:myportofolio_mobile/widgets/item_card.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
-import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/welcome_header.dart';
 
 /// Halaman menu utama: identitas pemilik portofolio dan grid tombol aksi.
@@ -28,6 +29,7 @@ class MyHomePage extends StatelessWidget {
       Icons.add_circle,
       Colors.teal,
       description: "Tambah pengalaman baru",
+      destination: (context) => const ExperienceFormPage(),
     ),
     ItemHomepage(
       "Lihat Achievement",

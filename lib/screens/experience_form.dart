@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/utils/form_validators.dart';
 import 'package:myportofolio_mobile/widgets/date_picker_field.dart';
+import 'package:myportofolio_mobile/widgets/form_styles.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 
 /// Formulir tambah Experience, mengikuti model Experience di backend Django:
@@ -45,17 +46,6 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
     _endedController.dispose();
     super.dispose();
   }
-
-  InputDecoration _decoration(String label, {String? hint}) {
-    return InputDecoration(
-      labelText: label,
-      hintText: hint ?? label,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-    );
-  }
-
-  Widget _padded(Widget child) =>
-      Padding(padding: const EdgeInsets.all(8.0), child: child);
 
   /// Kembalikan form dan semua state ke kondisi awal.
   void _resetForm() {
@@ -126,11 +116,11 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _padded(
+                paddedField(
                   TextFormField(
                     controller: _titleController,
                     maxLength: _titleMaxLength,
-                    decoration: _decoration('Judul Experience'),
+                    decoration: formDecoration('Judul Experience'),
                     validator: (v) => FormValidators.requiredText(
                       v,
                       label: 'Judul',
@@ -138,18 +128,18 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     ),
                   ),
                 ),
-                _padded(
+                paddedField(
                   TextFormField(
                     controller: _descriptionController,
                     maxLines: 5,
-                    decoration: _decoration('Deskripsi'),
+                    decoration: formDecoration('Deskripsi'),
                     validator: (v) =>
                         FormValidators.requiredText(v, label: 'Deskripsi'),
                   ),
                 ),
-                _padded(
+                paddedField(
                   DropdownButtonFormField<String>(
-                    decoration: _decoration('Kategori'),
+                    decoration: formDecoration('Kategori'),
                     initialValue: _category,
                     items: _categories
                         .map((c) => DropdownMenuItem(value: c, child: Text(c)))
@@ -157,7 +147,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     onChanged: (v) => setState(() => _category = v!),
                   ),
                 ),
-                _padded(
+                paddedField(
                   DatePickerField(
                     label: 'Tanggal Mulai',
                     controller: _startedController,
@@ -171,7 +161,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                         : null,
                   ),
                 ),
-                _padded(
+                paddedField(
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('Masih berlangsung'),
@@ -187,7 +177,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     },
                   ),
                 ),
-                _padded(
+                paddedField(
                   DatePickerField(
                     label: 'Tanggal Selesai',
                     controller: _endedController,
@@ -204,18 +194,18 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                     ),
                   ),
                 ),
-                _padded(
+                paddedField(
                   TextFormField(
                     controller: _thumbnailController,
                     keyboardType: TextInputType.url,
-                    decoration: _decoration(
+                    decoration: formDecoration(
                       'URL Thumbnail',
                       hint: 'https://... (opsional)',
                     ),
                     validator: FormValidators.optionalUrl,
                   ),
                 ),
-                _padded(
+                paddedField(
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(

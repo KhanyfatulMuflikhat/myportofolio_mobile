@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/utils/form_validators.dart';
 import 'package:myportofolio_mobile/widgets/date_picker_field.dart';
+import 'package:myportofolio_mobile/widgets/form_page_scaffold.dart';
 import 'package:myportofolio_mobile/widgets/form_styles.dart';
-import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+import 'package:myportofolio_mobile/widgets/summary_dialog.dart';
 
 /// Formulir tambah Experience, mengikuti model Experience di backend Django:
 /// title, description, category, thumbnail (URL), started_at, ended_at,
@@ -62,163 +63,120 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
 
   void _onSave() {
     if (!_formKey.currentState!.validate()) return;
-    showDialog(
+    final thumbnail = _thumbnailController.text.trim();
+    showSummaryDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Experience berhasil ditambahkan!'),
-        content: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Judul: ${_titleController.text.trim()}'),
-              Text('Deskripsi: ${_descriptionController.text.trim()}'),
-              Text('Kategori: $_category'),
-              Text('Mulai: ${FormValidators.formatDate(_startedAt!)}'),
-              Text(
-                _isOngoing
-                    ? 'Selesai: Masih berlangsung'
-                    : 'Selesai: ${FormValidators.formatDate(_endedAt!)}',
-              ),
-              Text(
-                'Thumbnail: ${_thumbnailController.text.trim().isEmpty ? '-' : _thumbnailController.text.trim()}',
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () {
-              Navigator.pop(dialogContext);
-              _resetForm();
-            },
-          ),
-        ],
-      ),
+      title: 'Experience berhasil ditambahkan!',
+      rows: {
+        'Judul': _titleController.text.trim(),
+        'Deskripsi': _descriptionController.text.trim(),
+        'Kategori': _category,
+        'Mulai': FormValidators.formatDate(_startedAt!),
+        'Selesai': _isOngoing
+            ? 'Masih berlangsung'
+            : FormValidators.formatDate(_endedAt!),
+        'Thumbnail': thumbnail.isEmpty ? '-' : thumbnail,
+      },
+      onClose: _resetForm,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Experience Form'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-      ),
-      drawer: const LeftDrawer(),
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                paddedField(
-                  TextFormField(
-                    controller: _titleController,
-                    maxLength: _titleMaxLength,
-                    decoration: formDecoration('Judul Experience'),
-                    validator: (v) => FormValidators.requiredText(
-                      v,
-                      label: 'Judul',
-                      maxLength: _titleMaxLength,
-                    ),
-                  ),
-                ),
-                paddedField(
-                  TextFormField(
-                    controller: _descriptionController,
-                    maxLines: 5,
-                    decoration: formDecoration('Deskripsi'),
-                    validator: (v) =>
-                        FormValidators.requiredText(v, label: 'Deskripsi'),
-                  ),
-                ),
-                paddedField(
-                  DropdownButtonFormField<String>(
-                    decoration: formDecoration('Kategori'),
-                    initialValue: _category,
-                    items: _categories
-                        .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                        .toList(),
-                    onChanged: (v) => setState(() => _category = v!),
-                  ),
-                ),
-                paddedField(
-                  DatePickerField(
-                    label: 'Tanggal Mulai',
-                    controller: _startedController,
-                    value: _startedAt,
-                    onPicked: (date) {
-                      setState(() => _startedAt = date);
-                      _startedController.text = FormValidators.formatDate(date);
-                    },
-                    validator: (_) => _startedAt == null
-                        ? 'Tanggal mulai tidak boleh kosong!'
-                        : null,
-                  ),
-                ),
-                paddedField(
-                  SwitchListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('Masih berlangsung'),
-                    value: _isOngoing,
-                    onChanged: (v) {
-                      setState(() {
-                        _isOngoing = v;
-                        if (v) {
-                          _endedAt = null;
-                          _endedController.clear();
-                        }
-                      });
-                    },
-                  ),
-                ),
-                paddedField(
-                  DatePickerField(
-                    label: 'Tanggal Selesai',
-                    controller: _endedController,
-                    value: _endedAt,
-                    enabled: !_isOngoing,
-                    onPicked: (date) {
-                      setState(() => _endedAt = date);
-                      _endedController.text = FormValidators.formatDate(date);
-                    },
-                    validator: (_) => FormValidators.endDate(
-                      start: _startedAt,
-                      end: _endedAt,
-                      ongoing: _isOngoing,
-                    ),
-                  ),
-                ),
-                paddedField(
-                  TextFormField(
-                    controller: _thumbnailController,
-                    keyboardType: TextInputType.url,
-                    decoration: formDecoration(
-                      'URL Thumbnail',
-                      hint: 'https://... (opsional)',
-                    ),
-                    validator: FormValidators.optionalUrl,
-                  ),
-                ),
-                paddedField(
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: _onSave,
-                      child: const Text('Simpan'),
-                    ),
-                  ),
-                ),
-              ],
+    return FormPageScaffold(
+      title: 'Add Experience Form',
+      formKey: _formKey,
+      onSave: _onSave,
+      children: [
+        paddedField(
+          TextFormField(
+            controller: _titleController,
+            maxLength: _titleMaxLength,
+            decoration: formDecoration('Judul Experience'),
+            validator: (v) => FormValidators.requiredText(
+              v,
+              label: 'Judul',
+              maxLength: _titleMaxLength,
             ),
           ),
         ),
-      ),
+        paddedField(
+          TextFormField(
+            controller: _descriptionController,
+            maxLines: 5,
+            decoration: formDecoration('Deskripsi'),
+            validator: (v) =>
+                FormValidators.requiredText(v, label: 'Deskripsi'),
+          ),
+        ),
+        paddedField(
+          DropdownButtonFormField<String>(
+            decoration: formDecoration('Kategori'),
+            initialValue: _category,
+            items: _categories
+                .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                .toList(),
+            onChanged: (v) => setState(() => _category = v!),
+          ),
+        ),
+        paddedField(
+          DatePickerField(
+            label: 'Tanggal Mulai',
+            controller: _startedController,
+            value: _startedAt,
+            onPicked: (date) {
+              setState(() => _startedAt = date);
+              _startedController.text = FormValidators.formatDate(date);
+            },
+            validator: (_) =>
+                _startedAt == null ? 'Tanggal mulai tidak boleh kosong!' : null,
+          ),
+        ),
+        paddedField(
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Masih berlangsung'),
+            value: _isOngoing,
+            onChanged: (v) {
+              setState(() {
+                _isOngoing = v;
+                if (v) {
+                  _endedAt = null;
+                  _endedController.clear();
+                }
+              });
+            },
+          ),
+        ),
+        paddedField(
+          DatePickerField(
+            label: 'Tanggal Selesai',
+            controller: _endedController,
+            value: _endedAt,
+            enabled: !_isOngoing,
+            onPicked: (date) {
+              setState(() => _endedAt = date);
+              _endedController.text = FormValidators.formatDate(date);
+            },
+            validator: (_) => FormValidators.endDate(
+              start: _startedAt,
+              end: _endedAt,
+              ongoing: _isOngoing,
+            ),
+          ),
+        ),
+        paddedField(
+          TextFormField(
+            controller: _thumbnailController,
+            keyboardType: TextInputType.url,
+            decoration: formDecoration(
+              'URL Thumbnail',
+              hint: 'https://... (opsional)',
+            ),
+            validator: FormValidators.optionalUrl,
+          ),
+        ),
+      ],
     );
   }
 }

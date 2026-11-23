@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/main.dart';
+import 'package:myportofolio_mobile/screens/achievement_form.dart';
+import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 
 void main() {
@@ -77,5 +79,87 @@ void main() {
 
     expect(find.text('Proyek berhasil ditambahkan!'), findsOneWidget);
     expect(find.text('Nama Proyek: Portfolio App'), findsOneWidget);
+  });
+
+  testWidgets('Tambah Experience membuka form', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    await tester.ensureVisible(find.text('Tambah Experience'));
+    await tester.tap(find.text('Tambah Experience'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Experience Form'), findsOneWidget);
+  });
+
+  testWidgets('Form Experience menolak isian kosong', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MaterialApp(home: ExperienceFormPage()));
+    await tester.ensureVisible(find.text('Simpan'));
+    await tester.tap(find.text('Simpan'));
+    await tester.pump();
+    expect(find.text('Judul tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Deskripsi tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Tanggal mulai tidak boleh kosong!'), findsOneWidget);
+    expect(find.byType(AlertDialog), findsNothing);
+  });
+
+  testWidgets('Form Experience valid menampilkan dialog', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MaterialApp(home: ExperienceFormPage()));
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'Asisten Dosen');
+    await tester.enterText(find.byType(TextFormField).at(1), 'Membantu kelas');
+
+    // Aktifkan "Masih berlangsung" supaya tanggal selesai tidak wajib.
+    await tester.ensureVisible(find.text('Masih berlangsung'));
+    await tester.tap(find.text('Masih berlangsung'));
+    await tester.pump();
+
+    // Pilih tanggal mulai lewat date picker.
+    final startField = find.widgetWithText(TextFormField, 'Tanggal Mulai');
+    await tester.ensureVisible(startField);
+    await tester.pumpAndSettle();
+    await tester.tap(startField);
+    await tester.pumpAndSettle();
+
+    // Date picker terbuka; konfirmasi tanggal default (hari ini).
+    expect(find.byType(DatePickerDialog), findsOneWidget);
+    await tester.tap(
+      find.descendant(
+        of: find.byType(DatePickerDialog),
+        matching: find.byType(TextButton).last,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Simpan'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Simpan'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Experience berhasil ditambahkan!'), findsOneWidget);
+    expect(find.text('Judul: Asisten Dosen'), findsOneWidget);
+  });
+
+  testWidgets('Tambah Achievement membuka form', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    await tester.ensureVisible(find.text('Tambah Achievement'));
+    await tester.tap(find.text('Tambah Achievement'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Achievement Form'), findsOneWidget);
+  });
+
+  testWidgets('Form Achievement menolak isian kosong', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MaterialApp(home: AchievementFormPage()));
+    await tester.ensureVisible(find.text('Simpan'));
+    await tester.tap(find.text('Simpan'));
+    await tester.pump();
+    expect(find.text('Judul tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Penyelenggara tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Deskripsi tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Tanggal pencapaian tidak boleh kosong!'), findsOneWidget);
+    expect(find.byType(AlertDialog), findsNothing);
   });
 }

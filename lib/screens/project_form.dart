@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myportofolio_mobile/widgets/form_styles.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 
 /// Halaman formulir untuk mengisi data proyek baru.
@@ -28,15 +29,6 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
     'Other',
   ];
 
-  /// Dekorasi seragam untuk semua field.
-  InputDecoration _decoration(String label, {String? hint}) {
-    return InputDecoration(
-      labelText: label,
-      hintText: hint ?? label,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +48,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  decoration: _decoration("Nama Proyek"),
+                  decoration: formDecoration("Nama Proyek"),
                   onChanged: (String? value) {
                     setState(() {
                       _projectName = value!;
@@ -76,7 +68,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   maxLines: 5,
-                  decoration: _decoration("Deskripsi Proyek"),
+                  decoration: formDecoration("Deskripsi Proyek"),
                   onChanged: (String? value) {
                     setState(() {
                       _description = value!;
@@ -95,7 +87,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButtonFormField<String>(
-                  decoration: _decoration("Kategori Proyek"),
+                  decoration: formDecoration("Kategori Proyek"),
                   initialValue: _category,
                   items: _categories
                       .map(
@@ -117,7 +109,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  decoration: _decoration(
+                  decoration: formDecoration(
                     "Teknologi yang Digunakan",
                     hint: "Contoh: Flutter, Django, Figma",
                   ),
@@ -133,7 +125,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  decoration: _decoration(
+                  decoration: formDecoration(
                     "Tautan Proyek",
                     hint: "URL Proyek (opsional)",
                   ),

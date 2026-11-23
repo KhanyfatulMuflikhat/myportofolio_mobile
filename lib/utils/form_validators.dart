@@ -46,6 +46,19 @@ class FormValidators {
     return null;
   }
 
+  /// Tanggal pencapaian: wajib diisi dan tidak boleh di masa depan.
+  ///
+  /// [today] bisa disuntikkan agar mudah diuji.
+  static String? pastOrTodayDate(DateTime? date, {DateTime? today}) {
+    if (date == null) return 'Tanggal pencapaian tidak boleh kosong!';
+    final now = today ?? DateTime.now();
+    final limit = DateTime(now.year, now.month, now.day);
+    if (date.isAfter(limit)) {
+      return 'Tanggal pencapaian tidak boleh di masa depan!';
+    }
+    return null;
+  }
+
   /// Format ISO `yyyy-MM-dd`, sama dengan format DateField Django.
   static String formatDate(DateTime date) {
     final m = date.month.toString().padLeft(2, '0');

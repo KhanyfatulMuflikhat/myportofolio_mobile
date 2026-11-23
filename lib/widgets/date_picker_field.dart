@@ -10,6 +10,7 @@ class DatePickerField extends StatelessWidget {
   final ValueChanged<DateTime> onPicked;
   final FormFieldValidator<String>? validator;
   final bool enabled;
+  final DateTime? lastDate;
 
   const DatePickerField({
     super.key,
@@ -19,6 +20,7 @@ class DatePickerField extends StatelessWidget {
     required this.onPicked,
     this.validator,
     this.enabled = true,
+    this.lastDate,
   });
 
   Future<void> _pick(BuildContext context) async {
@@ -26,7 +28,7 @@ class DatePickerField extends StatelessWidget {
       context: context,
       initialDate: value ?? DateTime.now(),
       firstDate: DateTime(1990),
-      lastDate: DateTime(2100),
+      lastDate: lastDate ?? DateTime(2100),
     );
     if (picked != null) onPicked(picked);
   }

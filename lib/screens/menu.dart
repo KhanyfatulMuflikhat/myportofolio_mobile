@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/models/item_homepage.dart';
+import 'package:myportofolio_mobile/screens/achievement_form.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/info_card.dart';
@@ -42,6 +43,7 @@ class MyHomePage extends StatelessWidget {
       Icons.military_tech,
       Colors.purple,
       description: "Tambah pencapaian baru",
+      destination: (context) => const AchievementFormPage(),
     ),
     ItemHomepage(
       "Lihat Projects",

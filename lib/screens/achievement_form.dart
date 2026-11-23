@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/utils/form_validators.dart';
 import 'package:myportofolio_mobile/widgets/date_picker_field.dart';
+import 'package:myportofolio_mobile/widgets/form_page_scaffold.dart';
 import 'package:myportofolio_mobile/widgets/form_styles.dart';
-import 'package:myportofolio_mobile/widgets/left_drawer.dart';
+import 'package:myportofolio_mobile/widgets/summary_dialog.dart';
 
 /// Formulir tambah Achievement, mengikuti model Achievement di backend Django:
 /// title, issuer, description, level, date_achieved, dan certificate_url.
@@ -58,136 +59,96 @@ class _AchievementFormPageState extends State<AchievementFormPage> {
   void _onSave() {
     if (!_formKey.currentState!.validate()) return;
     final certificate = _certificateController.text.trim();
-    showDialog(
+    showSummaryDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Achievement berhasil ditambahkan!'),
-        content: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Judul: ${_titleController.text.trim()}'),
-              Text('Penyelenggara: ${_issuerController.text.trim()}'),
-              Text('Deskripsi: ${_descriptionController.text.trim()}'),
-              Text('Level: $_level'),
-              Text('Tanggal: ${FormValidators.formatDate(_dateAchieved!)}'),
-              Text('Sertifikat: ${certificate.isEmpty ? '-' : certificate}'),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () {
-              Navigator.pop(dialogContext);
-              _resetForm();
-            },
-          ),
-        ],
-      ),
+      title: 'Achievement berhasil ditambahkan!',
+      rows: {
+        'Judul': _titleController.text.trim(),
+        'Penyelenggara': _issuerController.text.trim(),
+        'Deskripsi': _descriptionController.text.trim(),
+        'Level': _level,
+        'Tanggal': FormValidators.formatDate(_dateAchieved!),
+        'Sertifikat': certificate.isEmpty ? '-' : certificate,
+      },
+      onClose: _resetForm,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Achievement Form'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-      ),
-      drawer: const LeftDrawer(),
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                paddedField(
-                  TextFormField(
-                    controller: _titleController,
-                    maxLength: _titleMaxLength,
-                    decoration: formDecoration('Judul Pencapaian'),
-                    validator: (v) => FormValidators.requiredText(
-                      v,
-                      label: 'Judul',
-                      maxLength: _titleMaxLength,
-                    ),
-                  ),
-                ),
-                paddedField(
-                  TextFormField(
-                    controller: _issuerController,
-                    maxLength: _issuerMaxLength,
-                    decoration: formDecoration('Penyelenggara'),
-                    validator: (v) => FormValidators.requiredText(
-                      v,
-                      label: 'Penyelenggara',
-                      maxLength: _issuerMaxLength,
-                    ),
-                  ),
-                ),
-                paddedField(
-                  TextFormField(
-                    controller: _descriptionController,
-                    maxLines: 5,
-                    decoration: formDecoration('Deskripsi'),
-                    validator: (v) =>
-                        FormValidators.requiredText(v, label: 'Deskripsi'),
-                  ),
-                ),
-                paddedField(
-                  DropdownButtonFormField<String>(
-                    decoration: formDecoration('Level'),
-                    initialValue: _level,
-                    items: _levels
-                        .map((l) => DropdownMenuItem(value: l, child: Text(l)))
-                        .toList(),
-                    onChanged: (v) => setState(() => _level = v!),
-                  ),
-                ),
-                paddedField(
-                  DatePickerField(
-                    label: 'Tanggal Pencapaian',
-                    controller: _dateController,
-                    value: _dateAchieved,
-                    lastDate: DateTime.now(),
-                    onPicked: (date) {
-                      setState(() => _dateAchieved = date);
-                      _dateController.text = FormValidators.formatDate(date);
-                    },
-                    validator: (_) =>
-                        FormValidators.pastOrTodayDate(_dateAchieved),
-                  ),
-                ),
-                paddedField(
-                  TextFormField(
-                    controller: _certificateController,
-                    keyboardType: TextInputType.url,
-                    decoration: formDecoration(
-                      'URL Sertifikat',
-                      hint: 'https://... (opsional)',
-                    ),
-                    validator: FormValidators.optionalUrl,
-                  ),
-                ),
-                paddedField(
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: _onSave,
-                      child: const Text('Simpan'),
-                    ),
-                  ),
-                ),
-              ],
+    return FormPageScaffold(
+      title: 'Add Achievement Form',
+      formKey: _formKey,
+      onSave: _onSave,
+      children: [
+        paddedField(
+          TextFormField(
+            controller: _titleController,
+            maxLength: _titleMaxLength,
+            decoration: formDecoration('Judul Pencapaian'),
+            validator: (v) => FormValidators.requiredText(
+              v,
+              label: 'Judul',
+              maxLength: _titleMaxLength,
             ),
           ),
         ),
-      ),
+        paddedField(
+          TextFormField(
+            controller: _issuerController,
+            maxLength: _issuerMaxLength,
+            decoration: formDecoration('Penyelenggara'),
+            validator: (v) => FormValidators.requiredText(
+              v,
+              label: 'Penyelenggara',
+              maxLength: _issuerMaxLength,
+            ),
+          ),
+        ),
+        paddedField(
+          TextFormField(
+            controller: _descriptionController,
+            maxLines: 5,
+            decoration: formDecoration('Deskripsi'),
+            validator: (v) =>
+                FormValidators.requiredText(v, label: 'Deskripsi'),
+          ),
+        ),
+        paddedField(
+          DropdownButtonFormField<String>(
+            decoration: formDecoration('Level'),
+            initialValue: _level,
+            items: _levels
+                .map((l) => DropdownMenuItem(value: l, child: Text(l)))
+                .toList(),
+            onChanged: (v) => setState(() => _level = v!),
+          ),
+        ),
+        paddedField(
+          DatePickerField(
+            label: 'Tanggal Pencapaian',
+            controller: _dateController,
+            value: _dateAchieved,
+            lastDate: DateTime.now(),
+            onPicked: (date) {
+              setState(() => _dateAchieved = date);
+              _dateController.text = FormValidators.formatDate(date);
+            },
+            validator: (_) => FormValidators.pastOrTodayDate(_dateAchieved),
+          ),
+        ),
+        paddedField(
+          TextFormField(
+            controller: _certificateController,
+            keyboardType: TextInputType.url,
+            decoration: formDecoration(
+              'URL Sertifikat',
+              hint: 'https://... (opsional)',
+            ),
+            validator: FormValidators.optionalUrl,
+          ),
+        ),
+      ],
     );
   }
 }

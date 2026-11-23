@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/main.dart';
+import 'package:myportofolio_mobile/screens/achievement_form.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 
@@ -138,5 +139,27 @@ void main() {
 
     expect(find.text('Experience berhasil ditambahkan!'), findsOneWidget);
     expect(find.text('Judul: Asisten Dosen'), findsOneWidget);
+  });
+
+  testWidgets('Tambah Achievement membuka form', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    await tester.ensureVisible(find.text('Tambah Achievement'));
+    await tester.tap(find.text('Tambah Achievement'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Achievement Form'), findsOneWidget);
+  });
+
+  testWidgets('Form Achievement menolak isian kosong', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MaterialApp(home: AchievementFormPage()));
+    await tester.ensureVisible(find.text('Simpan'));
+    await tester.tap(find.text('Simpan'));
+    await tester.pump();
+    expect(find.text('Judul tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Penyelenggara tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Deskripsi tidak boleh kosong!'), findsOneWidget);
+    expect(find.text('Tanggal pencapaian tidak boleh kosong!'), findsOneWidget);
+    expect(find.byType(AlertDialog), findsNothing);
   });
 }

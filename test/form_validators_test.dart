@@ -58,4 +58,24 @@ void main() {
   test('formatDate memakai format ISO', () {
     expect(FormValidators.formatDate(DateTime(2026, 3, 5)), '2026-03-05');
   });
+
+  group('pastOrTodayDate', () {
+    final today = DateTime(2026, 11, 22);
+    test('null ditolak', () {
+      expect(FormValidators.pastOrTodayDate(null, today: today), isNotNull);
+    });
+    test('hari ini dan masa lalu lolos', () {
+      expect(FormValidators.pastOrTodayDate(today, today: today), isNull);
+      expect(
+        FormValidators.pastOrTodayDate(DateTime(2025, 1, 1), today: today),
+        isNull,
+      );
+    });
+    test('masa depan ditolak', () {
+      expect(
+        FormValidators.pastOrTodayDate(DateTime(2026, 11, 23), today: today),
+        isNotNull,
+      );
+    });
+  });
 }

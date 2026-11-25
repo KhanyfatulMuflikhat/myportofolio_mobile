@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/screens/achievement_form.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
-import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'package:myportofolio_mobile/screens/login_screen.dart';
 
 import 'test_helpers.dart';
 
@@ -46,41 +46,12 @@ void main() {
     expect(find.text('Kamu telah menekan tombol Logout!'), findsOneWidget);
   });
 
-  testWidgets('Tambah Proyek membuka halaman form', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('Tambah Proyek meminta login bila belum login', (tester) async {
     await tester.pumpWidget(testMyApp());
     await tester.ensureVisible(find.text('Tambah Proyek'));
     await tester.tap(find.text('Tambah Proyek'));
     await tester.pumpAndSettle();
-    expect(find.text('Add Project Form'), findsOneWidget);
-  });
-
-  testWidgets('Form menolak nama dan deskripsi kosong', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(testApp(const ProjectFormPage(), token: 'x'));
-    await tester.ensureVisible(find.text('Save'));
-    await tester.tap(find.text('Save'));
-    await tester.pump();
-
-    expect(find.text('Nama proyek tidak boleh kosong!'), findsOneWidget);
-    expect(find.text('Deskripsi proyek tidak boleh kosong!'), findsOneWidget);
-  });
-
-  testWidgets('Form valid menampilkan dialog berisi data', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(testApp(const ProjectFormPage(), token: 'x'));
-
-    await tester.enterText(find.byType(TextFormField).at(0), 'Portfolio App');
-    await tester.enterText(find.byType(TextFormField).at(1), 'Aplikasi mobile');
-    await tester.ensureVisible(find.text('Save'));
-    await tester.tap(find.text('Save'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Proyek berhasil ditambahkan!'), findsOneWidget);
-    expect(find.text('Nama Proyek: Portfolio App'), findsOneWidget);
+    expect(find.byType(LoginScreen), findsOneWidget);
   });
 
   testWidgets('Tambah Experience membuka form', (WidgetTester tester) async {

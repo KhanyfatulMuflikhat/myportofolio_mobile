@@ -68,7 +68,9 @@ void main() {
 
     // Jangan pumpAndSettle: spinner yang berputar bikin timeout.
     await tester.pump(); // mulai submit
-    await tester.pump(const Duration(milliseconds: 100)); // response mock selesai
+    await tester.pump(
+      const Duration(milliseconds: 100),
+    ); // response mock selesai
     await tester.pump(const Duration(milliseconds: 500)); // animasi dialog
 
     expect(find.text('Proyek berhasil ditambahkan!'), findsOneWidget);

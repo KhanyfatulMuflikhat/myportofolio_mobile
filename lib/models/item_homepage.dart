@@ -22,6 +22,13 @@ class ItemHomepage {
   /// Navigator.push setelah tombol ditekan; null berarti tetap di menu.
   final WidgetBuilder? destination;
 
+  /// Jika true, pengguna harus login dulu (lewat LoginScreen) sebelum aksi jalan.
+  final bool requiresAuth;
+
+  /// Aksi tambahan yang dijalankan setelah konfirmasi dan login (jika ada),
+  /// mis. logout. Dijalankan sebelum SnackBar tampil.
+  final Future<void> Function(BuildContext context)? action;
+
   const ItemHomepage(
     this.name,
     this.icon,
@@ -29,5 +36,7 @@ class ItemHomepage {
     this.description,
     this.confirmMessage,
     this.destination,
+    this.requiresAuth = false,
+    this.action,
   });
 }

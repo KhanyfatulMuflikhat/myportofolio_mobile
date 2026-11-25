@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/models/item_homepage.dart';
+import 'package:myportofolio_mobile/widgets/auth_guard.dart';
 
 /// Kartu tombol aksi berwarna dengan efek sentuh dan SnackBar.
 ///
@@ -59,13 +60,21 @@ class ItemCard extends StatelessWidget {
     final message = item.confirmMessage;
     if (message != null && !await _confirm(context, message)) return;
     if (!context.mounted) return;
+
+    if (item.requiresAuth && !await ensureLoggedIn(context)) return;
+    if (!context.mounted) return;
+
+    await item.action?.call(context);
+    if (!context.mounted) return;
+
     _showSnackBar(context);
+
     final destination = item.destination;
     if (destination != null) {
       Navigator.push(context, MaterialPageRoute(builder: destination));
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Material(

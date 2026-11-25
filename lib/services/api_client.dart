@@ -38,7 +38,8 @@ class ApiClient {
     );
     _ensureSuccess(response);
 
-    final decoded = jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
+    final decoded =
+        jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
     return decoded
         .map((item) => Project.fromJson(item as Map<String, dynamic>))
         .toList();
@@ -69,10 +70,7 @@ class ApiClient {
   Future<String> obtainToken(String username, String password) async {
     final response = await _client.post(
       _uri('/api/v1/auth/token/'),
-      headers: const {
-        'Accept': 'application/json',
-        'Content-Type': _json,
-      },
+      headers: const {'Accept': 'application/json', 'Content-Type': _json},
       body: jsonEncode({'username': username, 'password': password}),
     );
     _ensureSuccess(response);

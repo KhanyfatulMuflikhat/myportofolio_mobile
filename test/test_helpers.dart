@@ -17,7 +17,8 @@ ApiClient fakeApiClient([
 }
 
 /// The real app wired to a fake API client.
-Widget testMyApp([ApiClient? client]) => MyApp(apiClient: client ?? fakeApiClient());
+Widget testMyApp([ApiClient? client]) =>
+    MyApp(apiClient: client ?? fakeApiClient());
 
 /// Wraps [home] with the same providers as the app. Pass [token] to start logged in.
 Widget testApp(Widget home, {ApiClient? client, String? token}) {
@@ -25,7 +26,9 @@ Widget testApp(Widget home, {ApiClient? client, String? token}) {
   return MultiProvider(
     providers: [
       Provider.value(value: api),
-      ChangeNotifierProvider(create: (_) => AuthState(api, initialToken: token)),
+      ChangeNotifierProvider(
+        create: (_) => AuthState(api, initialToken: token),
+      ),
     ],
     child: MaterialApp(home: home),
   );

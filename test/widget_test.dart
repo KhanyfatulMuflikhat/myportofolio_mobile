@@ -4,6 +4,7 @@ import 'package:myportofolio_mobile/main.dart';
 import 'package:myportofolio_mobile/screens/achievement_form.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+
 import 'test_helpers.dart';
 
 void main() {
@@ -58,7 +59,7 @@ void main() {
   testWidgets('Form menolak nama dan deskripsi kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(home: ProjectFormPage()));
+    await tester.pumpWidget(testMyApp(const ProjectFormPage()));
     await tester.ensureVisible(find.text('Save'));
     await tester.tap(find.text('Save'));
     await tester.pump();
@@ -70,7 +71,7 @@ void main() {
   testWidgets('Form valid menampilkan dialog berisi data', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(home: ProjectFormPage()));
+    await tester.pumpWidget(testMyApp(const ProjectFormPage()));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'Portfolio App');
     await tester.enterText(find.byType(TextFormField).at(1), 'Aplikasi mobile');
@@ -93,7 +94,7 @@ void main() {
   testWidgets('Form Experience menolak isian kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(home: ExperienceFormPage()));
+    await tester.pumpWidget(testMyApp(const ExperienceFormPage()));
     await tester.ensureVisible(find.text('Simpan'));
     await tester.tap(find.text('Simpan'));
     await tester.pump();
@@ -106,7 +107,7 @@ void main() {
   testWidgets('Form Experience valid menampilkan dialog', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(home: ExperienceFormPage()));
+    await tester.pumpWidget(testMyApp(const ExperienceFormPage()));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'Asisten Dosen');
     await tester.enterText(find.byType(TextFormField).at(1), 'Membantu kelas');
@@ -153,7 +154,7 @@ void main() {
   testWidgets('Form Achievement menolak isian kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(home: AchievementFormPage()));
+    await tester.pumpWidget(testMyApp(const AchievementFormPage()));
     await tester.ensureVisible(find.text('Simpan'));
     await tester.tap(find.text('Simpan'));
     await tester.pump();

@@ -3,10 +3,14 @@ import 'package:myportofolio_mobile/models/item_homepage.dart';
 import 'package:myportofolio_mobile/screens/achievement_form.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'package:myportofolio_mobile/screens/project_list_screen.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
 import 'package:myportofolio_mobile/widgets/info_card.dart';
 import 'package:myportofolio_mobile/widgets/item_card.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 import 'package:myportofolio_mobile/widgets/welcome_header.dart';
+import 'package:provider/provider.dart';
+
 
 /// Halaman menu utama: identitas pemilik portofolio dan grid tombol aksi.
 ///
@@ -50,6 +54,7 @@ class MyHomePage extends StatelessWidget {
       Icons.folder,
       Colors.blue.shade700,
       description: "Lihat daftar proyek",
+      destination: (context) => const ProjectListScreen(),
     ),
     ItemHomepage(
       "Tambah Proyek",
@@ -57,6 +62,7 @@ class MyHomePage extends StatelessWidget {
       Colors.blueGrey.shade700,
       description: "Isi formulir proyek baru",
       destination: (context) => const ProjectFormPage(),
+      requiresAuth: true,
     ),
     ItemHomepage(
       "Logout",
@@ -64,6 +70,7 @@ class MyHomePage extends StatelessWidget {
       Colors.red.shade600,
       description: "Keluar dari akun",
       confirmMessage: "Yakin ingin keluar dari akun?",
+      action: (context) => context.read<AuthState>().logout(),
     ),
   ];
 

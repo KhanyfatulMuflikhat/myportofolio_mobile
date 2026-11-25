@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:myportofolio_mobile/main.dart';
 import 'package:myportofolio_mobile/screens/achievement_form.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
@@ -46,6 +45,7 @@ void main() {
 
     expect(find.text('Kamu telah menekan tombol Logout!'), findsOneWidget);
   });
+
   testWidgets('Tambah Proyek membuka halaman form', (
     WidgetTester tester,
   ) async {
@@ -59,7 +59,7 @@ void main() {
   testWidgets('Form menolak nama dan deskripsi kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(const ProjectFormPage()));
+    await tester.pumpWidget(testApp(const ProjectFormPage(), token: 'x'));
     await tester.ensureVisible(find.text('Save'));
     await tester.tap(find.text('Save'));
     await tester.pump();
@@ -71,7 +71,7 @@ void main() {
   testWidgets('Form valid menampilkan dialog berisi data', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(const ProjectFormPage()));
+    await tester.pumpWidget(testApp(const ProjectFormPage(), token: 'x'));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'Portfolio App');
     await tester.enterText(find.byType(TextFormField).at(1), 'Aplikasi mobile');
@@ -94,7 +94,7 @@ void main() {
   testWidgets('Form Experience menolak isian kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(const ExperienceFormPage()));
+    await tester.pumpWidget(testApp(const ExperienceFormPage(), token: 'x'));
     await tester.ensureVisible(find.text('Simpan'));
     await tester.tap(find.text('Simpan'));
     await tester.pump();
@@ -107,7 +107,7 @@ void main() {
   testWidgets('Form Experience valid menampilkan dialog', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(const ExperienceFormPage()));
+    await tester.pumpWidget(testApp(const ExperienceFormPage(), token: 'x'));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'Asisten Dosen');
     await tester.enterText(find.byType(TextFormField).at(1), 'Membantu kelas');
@@ -154,7 +154,7 @@ void main() {
   testWidgets('Form Achievement menolak isian kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(testMyApp(const AchievementFormPage()));
+    await tester.pumpWidget(testApp(const AchievementFormPage(), token: 'x'));
     await tester.ensureVisible(find.text('Simpan'));
     await tester.tap(find.text('Simpan'));
     await tester.pump();

@@ -11,7 +11,6 @@ import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 import 'package:myportofolio_mobile/widgets/welcome_header.dart';
 import 'package:provider/provider.dart';
 
-
 /// Halaman menu utama: identitas pemilik portofolio dan grid tombol aksi.
 ///
 /// Stateless karena seluruh datanya tetap selama aplikasi berjalan.

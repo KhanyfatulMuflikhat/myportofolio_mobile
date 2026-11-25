@@ -74,7 +74,7 @@ class ItemCard extends StatelessWidget {
       Navigator.push(context, MaterialPageRoute(builder: destination));
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Material(

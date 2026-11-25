@@ -4,12 +4,13 @@ import 'package:myportofolio_mobile/main.dart';
 import 'package:myportofolio_mobile/screens/achievement_form.dart';
 import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'test_helpers.dart';
 
 void main() {
   testWidgets('Menu menampilkan identitas dan SnackBar saat kartu ditekan', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(testMyApp());
 
     expect(find.text('Khanyfatul Muflikhat'), findsOneWidget);
     expect(find.text('2506589755'), findsOneWidget);
@@ -29,7 +30,7 @@ void main() {
   testWidgets('Logout meminta konfirmasi sebelum menampilkan SnackBar', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(testMyApp());
 
     await tester.ensureVisible(find.text('Logout'));
     await tester.tap(find.text('Logout'));
@@ -47,7 +48,7 @@ void main() {
   testWidgets('Tambah Proyek membuka halaman form', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(testMyApp());
     await tester.ensureVisible(find.text('Tambah Proyek'));
     await tester.tap(find.text('Tambah Proyek'));
     await tester.pumpAndSettle();
@@ -57,7 +58,7 @@ void main() {
   testWidgets('Form menolak nama dan deskripsi kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MaterialApp(home: ProjectFormPage()));
+    await tester.pumpWidget(testMyApp(home: ProjectFormPage()));
     await tester.ensureVisible(find.text('Save'));
     await tester.tap(find.text('Save'));
     await tester.pump();
@@ -69,7 +70,7 @@ void main() {
   testWidgets('Form valid menampilkan dialog berisi data', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MaterialApp(home: ProjectFormPage()));
+    await tester.pumpWidget(testMyApp(home: ProjectFormPage()));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'Portfolio App');
     await tester.enterText(find.byType(TextFormField).at(1), 'Aplikasi mobile');
@@ -82,7 +83,7 @@ void main() {
   });
 
   testWidgets('Tambah Experience membuka form', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(testMyApp());
     await tester.ensureVisible(find.text('Tambah Experience'));
     await tester.tap(find.text('Tambah Experience'));
     await tester.pumpAndSettle();
@@ -92,7 +93,7 @@ void main() {
   testWidgets('Form Experience menolak isian kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MaterialApp(home: ExperienceFormPage()));
+    await tester.pumpWidget(testMyApp(home: ExperienceFormPage()));
     await tester.ensureVisible(find.text('Simpan'));
     await tester.tap(find.text('Simpan'));
     await tester.pump();
@@ -105,7 +106,7 @@ void main() {
   testWidgets('Form Experience valid menampilkan dialog', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MaterialApp(home: ExperienceFormPage()));
+    await tester.pumpWidget(testMyApp(home: ExperienceFormPage()));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'Asisten Dosen');
     await tester.enterText(find.byType(TextFormField).at(1), 'Membantu kelas');
@@ -142,7 +143,7 @@ void main() {
   });
 
   testWidgets('Tambah Achievement membuka form', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(testMyApp());
     await tester.ensureVisible(find.text('Tambah Achievement'));
     await tester.tap(find.text('Tambah Achievement'));
     await tester.pumpAndSettle();
@@ -152,7 +153,7 @@ void main() {
   testWidgets('Form Achievement menolak isian kosong', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MaterialApp(home: AchievementFormPage()));
+    await tester.pumpWidget(testMyApp(home: AchievementFormPage()));
     await tester.ensureVisible(find.text('Simpan'));
     await tester.tap(find.text('Simpan'));
     await tester.pump();
